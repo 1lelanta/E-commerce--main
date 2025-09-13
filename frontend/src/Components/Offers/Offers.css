@@ -70,7 +70,7 @@
     .offers{
         padding: 0px 60px;
         margin-bottom: 80px;
-        height: 40vh;
+        height: 30vh;
     }
     .offers-left h1{
         font-size: 30px;
@@ -82,11 +82,54 @@
         width: 300px;
     }
     .offers-left button{
-        width: 220px;
-        height: 50px;
+        width: 160px;
+        height: 40px;
         font-size: 16px;
     }
     .offers-right{
-        padding-top: 30px;
+        padding-top: 10px;
+    } 
+}
+@media(max-width:800px){
+    .offers{
+      
+        margin-bottom: 60px;
+    }
+    .offers-left h1{
+        font-size: 22px;
+    }
+    .offers-left p{
+        font-size: 13px;
+    }
+    .offers-right img{
+        width: 100px;
+        
+    }
+    .offers-left button{
+        width: 140px;
+        height: 30px;
+        font-size: 12px;
+    }
+}
+@media(max-width:500px){
+    .offers{
+        height: 25vh;
+        margin-bottom: 30px;
+    }
+    .offers-left h1{
+        font-size: 16px;
+    }
+    .offers-left p{
+        font-size: 10px;
+    }
+    .offers-right img{
+        width: 120px;
+        
+    }
+    .offers-left button{
+        width: 140px;
+        height: 25px;
+        font-size: 10px;
+        margin-top: 12px;
     }
 }
