@@ -103,6 +103,17 @@ app.post('/addproduct', async (req, res) => {
   });
 });
 
+// creating for API for deleting Products
+app.post('/removeproduct', async(req,res)=>{
+  await Product.findOneAndDelete({id:req.body.id});
+  console.log("removed")
+  res.json({
+    success: true,
+    name: req.body.name
+  })
+
+})
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
