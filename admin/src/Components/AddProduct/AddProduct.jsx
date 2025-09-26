@@ -1,5 +1,5 @@
 import React from 'react'
-import './AddProduct'
+import './AddProduct.css'
 import upload_area from '../../assets/upload_area.svg'
 
 
@@ -38,7 +38,7 @@ const AddProduct = () => {
                 </label>
                 <input type="file" name='image' id='file-input' hidden />
             </div>
-            <button className='addproduct-btn'></button>
+            <button className='addproduct-btn'>Add</button>
         </div>
     </div>
   )
