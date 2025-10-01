@@ -6,9 +6,9 @@ const jwt = require('jsonwebtoken');
 const multer = require("multer");
 const path = require("path");
 const cors = require('cors');
+app.use(cors());
 
 app.use(express.json());
-app.use(cors());
 
 // database connection
 mongoose.connect("mongodb+srv://lelanta:12345lelantabro@cluster0.adbu7nd.mongodb.net/e-commerce");

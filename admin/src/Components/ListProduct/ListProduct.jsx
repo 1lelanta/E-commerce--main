@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import './ListProduct'
+import './ListProduct.css'   // ✅ fixed missing .css
 import cross_icon from '../../assets/cross_icon.png'
 
 export const ListProduct = () => {
 
-  const [allproducts, setAllProducts]= useState([]);
+  const [allproducts, setAllProducts] = useState([]);
 
-  const fetchInfo=async ()=>{
+  const fetchInfo = async () => {
     await fetch('http://localhost:4000/allproducts')
-    .then((res)=>res.json())
-    .then((data)=>{setAllProducts(data)});
+      .then((res) => res.json())
+      .then((data) => { setAllProducts(data) });
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     fetchInfo();
-  },[])
+  }, [])
+
   return (
     <div className='list-product'>
       <h1>All Products List</h1>
@@ -28,20 +29,21 @@ export const ListProduct = () => {
       </div>
       <div className="listproduct-allproducts">
         <hr />
-          {allproducts.map((product, index)=>{
-            return <div key={index} className="listproduct-format-main listproduct-format">
-              <img src={product.image} alt="" className="lisproduct-product-icon" />
+        {allproducts.map((product, index) => {
+          return (
+            <div key={index} className="listproduct-format-main listproduct-format">
+              <img src={product.image} alt="" className="listproduct-product-icon" /> {/* ✅ fixed typo */}
               <p>{product.name}</p>
               <p>${product.old_price}</p>
               <p>${product.new_price}</p>
               <p>{product.category}</p>
-              <img src= {cross_icon} alt="" className="listproduct-remove-icon" />
+              <img src={cross_icon} alt="" className="listproduct-remove-icon" />
             </div>
-          })}
+          )
+        })}
       </div>
     </div>
   )
 }
-
 
 export default ListProduct;
