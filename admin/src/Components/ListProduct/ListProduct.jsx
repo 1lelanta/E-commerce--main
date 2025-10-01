@@ -42,7 +42,6 @@ export const ListProduct = () => {
         <hr />
         {allproducts.map((product, index) => {
           return (
-            <>
               <div key={index} className="listproduct-format-main listproduct-format">
                 <img src={product.image} alt="" className="listproduct-product-icon" />
                 <p>{product.name}</p>
@@ -56,8 +55,6 @@ export const ListProduct = () => {
                   className="listproduct-remove-icon"
                 />
               </div>
-              <hr />
-            </>
           )
         })}
       </div>
