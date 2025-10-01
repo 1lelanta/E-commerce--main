@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './ListProduct'
 
 export const ListProduct = () => {
+
+  const [allproducts, setAllProducts]= useState([]);
+
+  const fetchInfo=async ()=>{
+    await fetch('http://localhost:4000/allproducts')
+    .then((res)=>res.json())
+    .then((data)=>{setAllProducts(data)});
+  }
+
   return (
     <div className='list-product'>
       <h1>All Products List</h1>
@@ -12,6 +21,10 @@ export const ListProduct = () => {
         <p>New Price</p>
         <p>Category</p>
         <p>Remove</p>
+      </div>
+      <div className="listproduct-allproducts">
+        <hr />
+
       </div>
     </div>
   )
