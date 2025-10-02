@@ -166,6 +166,19 @@ app.post('/signup',async(req,res)=>{
   })
 
   await user.save();
+
+  const data={
+    user:{
+      id:user.id,
+    }
+  }
+  const token = jwt.sign(data,'secret_ecom');
+  res.json({
+    success:true,
+    token
+  })
+
+
 })
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
