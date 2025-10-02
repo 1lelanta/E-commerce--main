@@ -157,6 +157,15 @@ app.post('/signup',async(req,res)=>{
   for (let i = 0; i < 300; i++) {
    cart[i]=0;
   }
+
+  const user = new Users({
+    name: req.body.userName,
+    email:req.body.email,
+    password: req.body.password,
+    cartData:cart,
+  })
+
+  await user.save();
 })
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
