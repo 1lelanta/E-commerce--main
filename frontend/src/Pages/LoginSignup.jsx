@@ -4,6 +4,15 @@ import './CSS/Loginsignup.css'
 const LoginSignup = () => {
 
   const [state,setState] = useState("Login");
+  const [formData, setFormData] = useState( )
+
+  const login = async()=>{
+    console.log("Login function execute")
+  }
+
+  const signup = async()=>{
+    console.log("sign up function execute")
+  }
 
   return (
     <div className='loginsignup'>
@@ -14,9 +23,11 @@ const LoginSignup = () => {
           <input type="email" placeholder='Email Address' />
           <input type="password" placeholder='Password' />
         </div>
-        <button>Continue</button>
-        <p className="loginsignup-login">Already have an account? <span>Login</span></p>
-        <p className="loginsignup-login">Create an account? <span>Click here</span></p>
+        <button onClick={()=>{state==="Login"?login(): signup()}}>Continue</button>
+
+        {state === "Sign Up"?<p className="loginsignup-login">Already have an account? <span onClick={()=>setState("Login")}>Login</span></p>:
+        <p className="loginsignup-login">Create an account? <span onClick={()=> setState("Sign Up")}>Click here</span></p>}
+
         <div className="loginsignup-agree">
           <input type="checkbox" name='' id='' />
           <p>By contiuning, i agree to the terms of use & privacy policy</p>
