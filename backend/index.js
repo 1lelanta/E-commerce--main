@@ -131,17 +131,33 @@ const Users = mongoose.model('users',{
   },
   email:{
     type: String,
-    unique: true,
+    unique: true,},
     password:{
       type:String
+    },
+    cartDate:{
+      type: Object
     },
     date:{
       type:Date,
       default: Date.now
     }
-  }
 })
 
+// creating Endpoint for registering the user
+app.post('/signup',async(req,res)=>{
+  let check = await Users.findOne({email:req.body.email})
+  if(check){
+    return res.status(400).json({
+      success: false,
+      errors:'existing user found with the same email address'
+    })
+  }
+  let cart = {}
+  for (let i = 0; i < 300; i++) {
+   cart[i]=0;
+  }
+})
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
