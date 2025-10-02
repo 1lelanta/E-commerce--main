@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const multer = require("multer");
 const path = require("path");
 const cors = require('cors');
+const { type } = require('os');
 app.use(cors());
 
 app.use(express.json());
@@ -25,6 +26,8 @@ const storage = multer.diskStorage({
     return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   }
 });
+
+
 
 const upload = multer({ storage: storage });
 
@@ -119,6 +122,24 @@ app.get('/allproducts', async(req, res)=>{
   let products = await Product.find({});
   console.log('All products fetched');
   res.send(products);
+})
+
+// Schema creating for user model
+const Users = mongoose.model('users',{
+  name:{
+    type:String,
+  },
+  email:{
+    type: String,
+    unique: true,
+    password:{
+      type:String
+    },
+    date:{
+      type:Date,
+      default: Date.now
+    }
+  }
 })
 
 app.listen(PORT, () => {
