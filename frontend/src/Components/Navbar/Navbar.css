@@ -6,20 +6,17 @@
     align-items: center;
 }
 
-
 .nav-logo{
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-
 .nav-logo p{
     color: #171717;
     font-size: 38px;
     font-weight: 600;
 }
-
 
 .nav-menu{
     display: flex;
@@ -38,7 +35,6 @@
     justify-content: center;
     gap: 3px;
     cursor: pointer;
-
 }
 
 .nav-menu hr{
@@ -47,14 +43,15 @@
     height:3px;
     border-radius: 10px;
     background: #FF4141;
-    
 }
 
 .nav-login-cart{
     display: flex;
     align-items: center;
     gap: 45px;
+    position: relative; /* ✅ needed for cart count positioning */
 }
+
 .nav-login-cart button{
     width: 130px;
     height: 40px;
@@ -66,24 +63,27 @@
     font-weight: 500;
     background: white;
     cursor: pointer;
-
 }
+
 .nav-login-cart button:active{
     background:#f3f3f3;
 }
+
 .nav-cart-count{
+    position: absolute; /* ✅ instead of margin hacks */
+    top: -8px;
+    right: -8px;
     width: 22px;
     height: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -35px;
-    margin-left: -55px;
-    border-radius: 11px;
+    border-radius: 50%;
     font-size: 14px;
     background: red;
     color: white;
 }
+
 .drop-down {
     display: flex;
     justify-content: center;
@@ -100,18 +100,20 @@
     cursor: pointer;
     background-color: white;
 }
+
 .drop-down select option{
     font-size: 18px;
     gap: 10px;
-    font-weight: 400px;
+    font-weight: 400;
 }
+
 .nav-dropdown{
     display: none;
 }
+
 @media(max-width:1280px){
     .navbar{
         padding: 12px 50px;
-
     }
     .nav-logo img{
         width: 40px;
@@ -126,17 +128,20 @@
     .nav-login-cart{
         gap: 30px;
     }
-    .nav-login-cart{
+    .nav-login-cart button{
         width: 120px;
         height: 45px;
         font-size: 16px;
-
     }
     .nav-cart-count{
-        margin-left: -40px;
+        width: 20px;
+        height: 20px;
         font-size: 12px;
+        top: -6px;
+        right: -6px;
     }
 }
+
 @media(max-width: 1024px){
     .navbar{
         padding: 12px 30px;
@@ -156,6 +161,9 @@
     .nav-cart-count{
         width: 18px;
         height: 18px;
+        font-size: 11px;
+        top: -6px;
+        right: -6px;
     }
     .drop-down select {
         width: 100px;
@@ -163,6 +171,7 @@
         font-size: 16px;
     }
 }
+
 @media(max-width:800px){
    .navbar{
     padding: 10px 0px;
@@ -195,6 +204,7 @@
         font-size: 14px;
     }
 }
+
 @media(max-width: 500px){
     .navbar{
         width: 8px 0px;
@@ -202,8 +212,6 @@
     }
     .nav-menu{
         transform: scale(0.8);
-    }
-    .nav-menu{
         height: 70px;
         top: 50px;
     }
