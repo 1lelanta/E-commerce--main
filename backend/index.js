@@ -206,6 +206,15 @@ app.post('/signup',async(req,res)=>{
     }
   })
 
+  //create endpoint for new collection data 
+
+  app.get('/newcollections',async(req,res)=>{
+    let products = await Product.find({});
+    let newcollection = products.slice(1).slice(-8);
+    console.log('new collections fetched')
+    req.send(newcollection);
+  })
+
 })
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
