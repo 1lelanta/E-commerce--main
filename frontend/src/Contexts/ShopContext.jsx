@@ -18,7 +18,7 @@ const ShopContextProvider = ({ children }) => {
   useEffect(()=>{
     fetch('http://localhost:4000/allproducts').then((response=>response.json()))
     .then((data)=>setAll_product(data))
-  })
+  },[])
 
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
