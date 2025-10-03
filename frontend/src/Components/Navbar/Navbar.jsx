@@ -77,16 +77,6 @@ const Navbar = () => {
         </li>
       </ul>
 
-      {/* Extra dropdown */}
-      <div className="drop-down">
-        <select value={selectedOption} onChange={handleDropdownChange}>
-          <option value="More">More</option>
-          <option value="Watch">Watch</option>
-          <option value="Shoes">Shoes</option>
-          <option value="Socks">Socks</option>
-          <option value="Belt">Belt</option>
-        </select>
-      </div>
 
       {/* Login + Cart */}
       <div className="nav-login-cart">
