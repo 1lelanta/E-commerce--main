@@ -4,7 +4,15 @@ import './CSS/Loginsignup.css'
 const LoginSignup = () => {
 
   const [state,setState] = useState("Login");
-  const [formData, setFormData] = useState( )
+  const [formData, setFormData] = useState({
+    username:"",
+    password:"",
+    email:""
+  } )
+
+  const changeHandler =(e)=>{
+    setFormData({...formData,[e.target.name]:e.target.value})
+  }
 
   const login = async()=>{
     console.log("Login function execute")
@@ -19,9 +27,9 @@ const LoginSignup = () => {
       <div className="loginsignup-container">
         <h1>{state}</h1>
         <div className="loginsignup-field">
-          {state==="Sign Up"?<input type="text" placeholder='Your name' />:<></>}
-          <input type="email" placeholder='Email Address' />
-          <input type="password" placeholder='Password' />
+          {state==="Sign Up"?<input type="text" name ='username' value={formData.username} onChange={changeHandler} placeholder='Your name' />:<></>}
+          <input name='email' value={formData.email} onChange={changeHandler} type="email" placeholder='Email Address' />
+          <input name='password' value={formData.password} onChange={changeHandler} type="password" placeholder='Password' />
         </div>
         <button onClick={()=>{state==="Login"?login(): signup()}}>Continue</button>
 
