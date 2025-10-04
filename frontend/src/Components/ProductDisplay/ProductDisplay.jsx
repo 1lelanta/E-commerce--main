@@ -5,8 +5,14 @@ import star_dull_icon from "../Assets/star_dull_icon.png";
 import { ShopContext } from '../../Contexts/ShopContext';
 
 const ProductDisplay = (props) => {
-  const {product} = props
-  const {addToCart} = useContext(ShopContext);
+  const { product } = props;
+  const { addToCart } = useContext(ShopContext);
+
+  // ✅ Prevent undefined errors
+  if (!product) {
+    return null; // or <p>Loading...</p>
+  }
+
   return (
     <div className='productdisplay'>
       <div className="productdisplay-left">
@@ -47,7 +53,7 @@ const ProductDisplay = (props) => {
             <div>XXL</div>
           </div>
         </div>
-        <button onClick={()=>{addToCart(product.id)}}>ADD TO CART</button>
+        <button onClick={() => addToCart(product.id)}>ADD TO CART</button>
         <p className='productdisplay-right-category'><span>Category :</span> Women, T-Shirt, Crop Top</p>
         <p className='productdisplay-right-category'><span>Tags :</span> Modern, Latest</p>
       </div>
