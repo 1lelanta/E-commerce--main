@@ -167,15 +167,15 @@ app.get('/popularinwomen', async (req, res) => {
         req.user = data.user;
         next();
       } catch (error) {
-        
+        res.status(401).send({errors:'please authenticate using valid token'})
       }
     }
 
   }
 
 // ➡️ add to cart (fixed)
-app.post('/addtocart', async (req, res) => {
-  console.log(req.body);
+app.post('/addtocart',fetchUser, async (req, res) => {
+  console.log(req.body,req.user);
   res.json({ success: true, message: "add to cart endpoint working" });
 });
 
