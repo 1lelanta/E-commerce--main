@@ -29,7 +29,10 @@ const ShopContextProvider = ({ children }) => {
           accept:"application/json",
           'auth-token':`${localStorage.getItem('auth-token')}`,
            'content-Type':'application/json',
-        }
+        },
+        body:JSON.stringify({"itemId":itemId})
+        .then((response)=response.json())
+        .then((data)=>console.log(data))
       });
     }
   };
