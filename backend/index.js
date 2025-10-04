@@ -52,7 +52,7 @@ const Product = mongoose.model("product", {
 app.post('/addproduct', async (req, res) => {
   let products = await Product.find({});
   let id;
-  if(products.length>0){
+  if (products.length > 0) {
     let last_product = products[products.length - 1];
     id = last_product.id + 1;
   } else {
@@ -60,7 +60,7 @@ app.post('/addproduct', async (req, res) => {
   }
 
   const product = new Product({
-    id:id,
+    id: id,
     name: req.body.name,
     image: req.body.image,
     category: req.body.category,
@@ -72,34 +72,34 @@ app.post('/addproduct', async (req, res) => {
 });
 
 // ➡️ remove product
-app.post('/removeproduct', async(req,res)=>{
-  await Product.findOneAndDelete({id:req.body.id});
+app.post('/removeproduct', async (req, res) => {
+  await Product.findOneAndDelete({ id: req.body.id });
   res.json({ success: true, id: req.body.id });
 });
 
 // ➡️ get all products
-app.get('/allproducts', async(req, res)=>{
+app.get('/allproducts', async (req, res) => {
   let products = await Product.find({});
   console.log('All products fetched');
   res.send(products);
 });
 
 // Schema creating for user model
-const Users = mongoose.model('users',{
-  name:{ type:String },
-  email:{ type:String, unique: true },
-  password:{ type:String },
-  cartData:{ type: Object },
-  date:{ type:Date, default: Date.now }
+const Users = mongoose.model('users', {
+  name: { type: String },
+  email: { type: String, unique: true },
+  password: { type: String },
+  cartData: { type: Object },
+  date: { type: Date, default: Date.now }
 });
 
 // ➡️ signup
-app.post('/signup',async(req,res)=>{
-  let check = await Users.findOne({email:req.body.email});
-  if(check){
+app.post('/signup', async (req, res) => {
+  let check = await Users.findOne({ email: req.body.email });
+  if (check) {
     return res.status(400).json({
       success: false,
-      errors:'existing user found with the same email address'
+      errors: 'existing user found with the same email address'
     });
   }
 
@@ -117,47 +117,48 @@ app.post('/signup',async(req,res)=>{
 
   await user.save();
 
-  const data = { user:{ id:user.id } }
-  const token = jwt.sign(data,'secret_ecom');
-  res.json({ success:true, token });
+  const data = { user: { id: user.id } }
+  const token = jwt.sign(data, 'secret_ecom');
+  res.json({ success: true, token });
 });
 
-// ➡️ login (✅ now outside signup)
-app.post('/login', async(req,res)=>{
-  let user = await Users.findOne({email:req.body.email});
-  if(user){
+// ➡️ login
+app.post('/login', async (req, res) => {
+  let user = await Users.findOne({ email: req.body.email });
+  if (user) {
     const passCompare = req.body.password === user.password;
-    if(passCompare){
-      const data = { user:{ id:user.id } }
+    if (passCompare) {
+      const data = { user: { id: user.id } }
       const token = jwt.sign(data, 'secret_ecom');
-      res.json({ success:true, token });
+      res.json({ success: true, token });
     } else {
-      res.json({ success:false, errors:"wrong Password" });
+      res.json({ success: false, errors: "wrong Password" });
     }
   } else {
-    res.json({ success:false, errors:"wrong email id" });
+    res.json({ success: false, errors: "wrong email id" });
   }
 });
 
-// ➡️ new collections (✅ fixed)
-app.get('/newcollections', async(req,res)=>{
-  let newcollection = await Product.find().sort({date: -1}).limit(8); 
+// ➡️ new collections
+app.get('/newcollections', async (req, res) => {
+  let newcollection = await Product.find().sort({ date: -1 }).limit(8);
   console.log('new collections fetched');
   res.send(newcollection);
 });
 
-//create endpoint for popular in women
-app.get('/popularinwomen', async(req,res)=>{
-    let products = await Product.find({category:"women"});
-    let popular_in_women = products.slice(0,4);
-    console.log("popular in women fetched");
-    res.send(popular_in_women)
-})
+// ➡️ popular in women
+app.get('/popularinwomen', async (req, res) => {
+  let products = await Product.find({ category: "women" });
+  let popular_in_women = products.slice(0, 4);
+  console.log("popular in women fetched");
+  res.send(popular_in_women);
+});
 
-// create an endpoint to add to cart
-app.post('/addtocart',async(req,res)=>{
-  console.log(req,body);
-})
+// ➡️ add to cart (fixed)
+app.post('/addtocart', async (req, res) => {
+  console.log(req.body);
+  res.json({ success: true, message: "add to cart endpoint working" });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
