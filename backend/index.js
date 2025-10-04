@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const multer = require("multer");
 const path = require("path");
 const cors = require('cors');
+const { error } = require('console');
 
 app.use(cors());
 app.use(express.json());
@@ -153,6 +154,24 @@ app.get('/popularinwomen', async (req, res) => {
   console.log("popular in women fetched");
   res.send(popular_in_women);
 });
+
+// create middleware to fetch user
+  const fetchUser = async(req,res, next)=>{
+    const token = req.header('auth-token');
+    if(!token){
+      res.status(401).send({errors:"please authenticate using valid token"})
+    }
+    else{
+      try {
+        const data = jwt.verify(token,'secret_ecom');
+        req.user = data.user;
+        next();
+      } catch (error) {
+        
+      }
+    }
+
+  }
 
 // ➡️ add to cart (fixed)
 app.post('/addtocart', async (req, res) => {
