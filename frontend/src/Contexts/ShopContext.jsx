@@ -22,6 +22,16 @@ const ShopContextProvider = ({ children }) => {
 
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+    if(localStorage.getItem(auth-token)){
+      fetch('http://localhost:4000/addtocart',{
+        method:'POST',
+        headers:{
+          accept:"application/json",
+          'auth-token':`${localStorage.getItem('auth-token')}`,
+           'content-Type':'application/json',
+        }
+      });
+    }
   };
 
   const removeFromCart = (itemId) => {
