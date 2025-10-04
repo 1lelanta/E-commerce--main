@@ -175,8 +175,9 @@ app.get('/popularinwomen', async (req, res) => {
 
 // ➡️ add to cart (fixed)
 app.post('/addtocart',fetchUser, async (req, res) => {
-  console.log(req.body,req.user);
-  res.json({ success: true, message: "add to cart endpoint working" });
+ let userData = await Users.findOne({_id:req.user.id});
+ userData.cartData[req.body.itemId]+1;
+ await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
 });
 
 app.listen(PORT, () => {
