@@ -4,9 +4,7 @@ export const ShopContext = createContext(null);
 
 const getDefaultCart = () => {
   let cart = {};
-  for (let index = 0; index <= 300; index++) {
-    cart[index] = 0;
-  }
+  for (let index = 0; index <= 300; index++) cart[index] = 0;
   return cart;
 };
 
@@ -15,64 +13,61 @@ const ShopContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(getDefaultCart());
 
   useEffect(() => {
-    fetch('http://localhost:4000/allproducts')
-      .then((response) => response.json())
+    fetch("http://localhost:4000/allproducts")
+      .then((res) => res.json())
       .then((data) => setAll_product(data));
   }, []);
 
   const addToCart = (itemId) => {
-  setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
 
-  const token = localStorage.getItem('auth-token');
-  if (token) {
-    fetch('http://localhost:4000/addtocart', {
-      method: 'POST',
-      headers: {
-        Accept: "application/json",
-        'auth-token': token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ itemId }), // ✅ JSON body properly sent
-    })
-      .then((response) => response.json()) // ✅ then chain outside
-      .then((data) => console.log("Add to cart response:", data))
-      .catch((err) => console.error("Add to cart error:", err));
-  }
-};
-
+    const token = localStorage.getItem("auth-token");
+    if (token) {
+      fetch("http://localhost:4000/addtocart", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "auth-token": token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId }),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log("Add to cart response:", data))
+        .catch((err) => console.error(err));
+    }
+  };
 
   const removeFromCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
   };
 
   const getTotalCartAmount = () => {
-    let totalAmount = 0;
+    let total = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
-        let itemInfo = all_product.find((product) => product.id === Number(item));
-        totalAmount += itemInfo?.new_price * cartItems[item];
+        let product = all_product.find((p) => p.id === Number(item));
+        total += product?.new_price * cartItems[item];
       }
     }
-    return totalAmount;
+    return total;
   };
 
   const getTotalCartItems = () => {
-    let totalItem = 0;
+    let total = 0;
     for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        totalItem += cartItems[item];
-      }
+      if (cartItems[item] > 0) total += cartItems[item];
     }
-    return totalItem;
+    return total;
   };
 
   const contextValue = {
-    getTotalCartItems,
-    getTotalCartAmount,
     all_product,
     cartItems,
     addToCart,
     removeFromCart,
+    getTotalCartAmount,
+    getTotalCartItems,
   };
 
   return (
