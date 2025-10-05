@@ -174,12 +174,26 @@ app.get('/popularinwomen', async (req, res) => {
   }
 
 // ➡️ add to cart (fixed)
-app.post('/addtocart',fetchUser, async (req, res) => {
- let userData = await Users.findOne({_id:req.user.id});
- userData.cartData[req.body.itemId]+1;
- await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
- res.send("added");
+app.post('/addtocart', fetchUser, async (req, res) => {
+  try {
+    let userData = await Users.findOne({ _id: req.user.id });
+    let itemId = req.body.itemId;
+
+    if (userData.cartData[itemId] != undefined) {
+      userData.cartData[itemId] += 1; // ✅ Corrected increment
+    } else {
+      userData.cartData[itemId] = 1;
+    }
+
+    await Users.findByIdAndUpdate(req.user.id, { cartData: userData.cartData });
+    res.json({ success: true, message: "Item added to cart" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
