@@ -3,26 +3,23 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const multer = require('multer');
-const path = require('path');
+const multer = require("multer");
+const path = require("path");
 const cors = require('cors');
 const fs = require('fs');
-
-// Ensure upload folder exists
-const uploadPath = path.join(__dirname, 'upload/images');
-if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });
 
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
 mongoose.connect("mongodb+srv://lelanta:12345lelantabro@cluster0.adbu7nd.mongodb.net/e-commerce");
+
+const uploadPath = path.join(__dirname, 'upload/images');
+if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });
 
 app.get("/", (req, res) => {
   res.send("Express App is running");
 });
 
-// Multer config
 const storage = multer.diskStorage({
   destination: './upload/images',
   filename: (req, file, cb) => {
@@ -39,7 +36,6 @@ app.post("/upload", upload.single('product'), (req, res) => {
   });
 });
 
-// Models
 const Product = mongoose.model("product", {
   id: { type: Number, required: true },
   name: { type: String, required: true },
@@ -59,11 +55,9 @@ const Users = mongoose.model('users', {
   date: { type: Date, default: Date.now }
 });
 
-// Middleware: fetchUser
 const fetchUser = async (req, res, next) => {
   const token = req.header('auth-token');
   if (!token) return res.status(401).send({ errors: "please authenticate using valid token" });
-
   try {
     const data = jwt.verify(token, 'secret_ecom');
     req.user = data.user;
@@ -73,7 +67,6 @@ const fetchUser = async (req, res, next) => {
   }
 };
 
-// Routes
 app.post('/signup', async (req, res) => {
   let check = await Users.findOne({ email: req.body.email });
   if (check) return res.status(400).json({ success: false, errors: 'existing user found with the same email address' });
@@ -107,7 +100,7 @@ app.post('/addproduct', async (req, res) => {
   let id = products.length > 0 ? products.slice(-1)[0].id + 1 : 1;
 
   const product = new Product({
-    id,
+    id: id,
     name: req.body.name,
     image: req.body.image,
     category: req.body.category,
@@ -133,11 +126,9 @@ app.post('/addtocart', fetchUser, async (req, res) => {
   try {
     let userData = await Users.findById(req.user.id);
     if (!userData) return res.status(404).json({ success: false, message: "User not found" });
-
     let itemId = req.body.itemId;
     if (userData.cartData[itemId] !== undefined) userData.cartData[itemId] += 1;
     else userData.cartData[itemId] = 1;
-
     await userData.save();
     res.json({ success: true, message: "Item added to cart" });
   } catch {
@@ -155,4 +146,6 @@ app.get('/popularinwomen', async (req, res) => {
   res.send(products.slice(0, 4));
 });
 
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
